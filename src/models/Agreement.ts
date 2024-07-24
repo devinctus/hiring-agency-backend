@@ -5,6 +5,7 @@ export interface IAgreement extends Document {
     employer: mongoose.Types.ObjectId;
     applicant: mongoose.Types.ObjectId;
     jobPosition: string;
+    professionalArea: string;
     fees: number;
 }
 
@@ -37,6 +38,14 @@ const agreementSchema: Schema<IAgreement> = new Schema(
             type: String,
             required: [true, 'Job position is required'],
             minlength: [2, 'Job position must be at least 2 characters long'],
+        },
+        professionalArea: {
+            type: String,
+            required: [true, 'Professional area is required'],
+            minlength: [
+                2,
+                'Professional area must be at least 2 characters long',
+            ],
         },
         fees: {
             type: Number,

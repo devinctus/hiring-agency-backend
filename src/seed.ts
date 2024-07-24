@@ -41,7 +41,7 @@ const generateEmployers = async () => {
         const areaCode = Math.floor(Math.random() * (989 - 201 + 1)) + 201;
         const centralOfficeCode = faker.string.numeric(3);
         const lineNumber = faker.string.numeric(4);
-        return `(${areaCode}) ${centralOfficeCode}-${lineNumber}`;
+        return `(${areaCode})${centralOfficeCode}-${lineNumber}`;
     };
 
     const employers: IEmployer[] = [];

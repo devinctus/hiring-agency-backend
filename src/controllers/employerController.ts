@@ -1,4 +1,3 @@
-// backend/controllers/employerController.ts
 import { Request, Response } from 'express';
 import Employer from '../models/Employer';
 import asyncHandler from 'express-async-handler';
@@ -9,6 +8,21 @@ export const getEmployers = asyncHandler(
             '-createdAt -updatedAt -__v',
         );
         res.status(200).json(employers);
+    },
+);
+
+export const getEmployerById = asyncHandler(
+    async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const employer = await Employer.findById(id).select(
+            '-createdAt -updatedAt -__v',
+        );
+
+        if (employer) {
+            res.status(200).json(employer);
+        } else {
+            res.status(404).json({ message: 'Employer not found' });
+        }
     },
 );
 

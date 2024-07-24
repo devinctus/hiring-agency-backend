@@ -30,7 +30,7 @@ export const registerUser = asyncHandler(
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                token: generateToken(user._id),
+                token: 'Bearer ' + generateToken(user._id),
             });
         } else {
             res.status(400);

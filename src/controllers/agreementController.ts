@@ -19,7 +19,8 @@ export const getAgreements = asyncHandler(
 
 export const createAgreement = asyncHandler(
     async (req: Request, res: Response) => {
-        const { employerId, applicantId, jobPosition, fees } = req.body;
+        const { employerId, applicantId, jobPosition, professionalArea, fees } =
+            req.body;
         const employer = await Employer.findById(employerId);
         const applicant = await Applicant.findById(applicantId);
 
@@ -28,6 +29,7 @@ export const createAgreement = asyncHandler(
                 employer,
                 applicant,
                 jobPosition,
+                professionalArea,
                 fees,
             });
 
@@ -54,11 +56,13 @@ export const updateAgreement = asyncHandler(
                 (await Applicant.findById(req.body.applicantId)) ||
                 agreement.applicant;
             const jobPosition = req.body.jobPosition || agreement.jobPosition;
+            const professionalArea =
+                req.body.professionalArea || agreement.professionalArea;
             const fees = req.body.fees || agreement.fees;
 
             const updatedVacancy = await Agreement.findByIdAndUpdate(
                 id,
-                { employer, applicant, jobPosition, fees },
+                { employer, applicant, jobPosition, professionalArea, fees },
                 { returnOriginal: false },
             );
             res.status(201).json({
@@ -74,7 +78,7 @@ export const updateAgreement = asyncHandler(
 export const deleteAgreement = asyncHandler(
     async (req: Request, res: Response) => {
         const { id } = req.params;
-        const agreement = await Agreement.findById(id);
+        const agreement = await Agreement.findByIdAndDelete(id);
 
         if (agreement) {
             res.status(202).json({ message: 'Agreement deleted' });

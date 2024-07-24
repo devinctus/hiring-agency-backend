@@ -1,5 +1,5 @@
-// backend/server.ts
 import express from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db';
 import { notFound, errorHandler } from './middlewares/errorMiddleware';
@@ -9,6 +9,7 @@ import applicantRoutes from './routes/applicantRoutes';
 import vacancyRoutes from './routes/vacancyRoutes';
 import agreementRoutes from './routes/agreementRoutes';
 import { setupSwagger } from './config/swaggerConfig';
+import { corsOptions } from './config/corsConfig';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ connectDB();
 
 // Middleware
 app.use(express.json());
+app.use(cors(corsOptions));
 
 // Swagger setup
 setupSwagger(app);

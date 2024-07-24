@@ -42,6 +42,8 @@ const router = express.Router();
  *                     type: string
  *                   jobPosition:
  *                     type: string
+ *                   professionalArea:
+ *                     type: string
  *                   fees:
  *                     type: number
  *       401:
@@ -69,6 +71,8 @@ router.get('/all', auth, getAgreements);
  *               applicantId:
  *                 type: string
  *               jobPosition:
+ *                 type: string
+ *               professionalArea:
  *                 type: string
  *               fees:
  *                 type: number
@@ -108,6 +112,8 @@ router.post('/create', auth, createAgreement);
  *               applicantId:
  *                 type: string
  *               jobPosition:
+ *                 type: string
+ *               professionalArea:
  *                 type: string
  *               fees:
  *                 type: number

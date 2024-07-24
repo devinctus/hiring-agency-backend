@@ -1,8 +1,8 @@
-// backend/controllers/applicantController.ts
 import { Request, Response } from 'express';
 import Applicant from '../models/Applicant';
 import asyncHandler from 'express-async-handler';
 
+// Get all applicants
 export const getApplicants = asyncHandler(
     async (req: Request, res: Response) => {
         const applicants = await Applicant.find().select(
@@ -12,6 +12,7 @@ export const getApplicants = asyncHandler(
     },
 );
 
+// Create a new applicant
 export const createApplicant = asyncHandler(
     async (req: Request, res: Response) => {
         const {
@@ -50,6 +51,7 @@ export const createApplicant = asyncHandler(
     },
 );
 
+// Update an applicant
 export const updateApplicant = asyncHandler(
     async (req: Request, res: Response) => {
         const { id } = req.params;
@@ -98,6 +100,7 @@ export const updateApplicant = asyncHandler(
     },
 );
 
+// Delete an applicant
 export const deleteApplicant = asyncHandler(
     async (req: Request, res: Response) => {
         const { id } = req.params;
@@ -111,6 +114,7 @@ export const deleteApplicant = asyncHandler(
     },
 );
 
+// Hire an applicant
 export const hireApplicant = asyncHandler(
     async (req: Request, res: Response) => {
         const { id } = req.params;
@@ -120,6 +124,22 @@ export const hireApplicant = asyncHandler(
 
         if (applicant) {
             res.status(202).json({ message: 'Applicant hired' });
+        } else {
+            res.status(404).json({ message: 'Applicant not found' });
+        }
+    },
+);
+
+// Get applicant by ID
+export const getApplicantById = asyncHandler(
+    async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const applicant = await Applicant.findById(id).select(
+            '-createdAt -updatedAt -__v',
+        );
+
+        if (applicant) {
+            res.status(200).json(applicant);
         } else {
             res.status(404).json({ message: 'Applicant not found' });
         }

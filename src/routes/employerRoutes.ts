@@ -4,6 +4,7 @@ import {
     getEmployers,
     updateEmployer,
     deleteEmployer,
+    getEmployerById,
 } from '../controllers/employerController';
 import { auth } from '../middlewares/authMiddleware';
 
@@ -48,6 +49,44 @@ const router = express.Router();
  *         description: Not authorized.
  */
 router.get('/all', auth, getEmployers);
+
+/**
+ * @swagger
+ * /api/employers/{id}:
+ *   get:
+ *     summary: Get an employer by ID
+ *     tags: [Employers]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Employer ID (e.g. 66981d223c9f4c4b52f8b87b)
+ *     responses:
+ *       200:
+ *         description: Employer retrieved successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 companyName:
+ *                   type: string
+ *                 professionalArea:
+ *                   type: string
+ *                 address:
+ *                   type: string
+ *                 phone:
+ *                   type: string
+ *       404:
+ *         description: Employer not found.
+ */
+router.get('/:id', auth, getEmployerById);
 
 /**
  * @swagger
