@@ -135,11 +135,11 @@ export const changeStatusApplicant = asyncHandler(
     async (req: Request, res: Response) => {
         const { id } = req.params;
         const applicant = await Applicant.findByIdAndUpdate(id, {
-            isOpen: req.body.isHired,
+            isHired: req.body.isHired,
         });
 
         if (applicant) {
-            res.status(202).json({
+            res.status(201).json({
                 message: 'Applicant isHired status changed',
             });
         } else {

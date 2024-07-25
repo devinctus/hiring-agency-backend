@@ -103,7 +103,7 @@ export const changeStatusVacancy = asyncHandler(
         });
 
         if (vacancy) {
-            res.status(202).json({ message: 'Vacancy isOpen status changed' });
+            res.status(201).json({ message: 'Vacancy isOpen status changed' });
         } else {
             res.status(404).json({ message: 'Vacancy not found' });
         }
