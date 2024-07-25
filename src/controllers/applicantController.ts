@@ -12,6 +12,22 @@ export const getApplicants = asyncHandler(
     },
 );
 
+// Get applicant by ID
+export const getApplicantById = asyncHandler(
+    async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const applicant = await Applicant.findById(id).select(
+            '-createdAt -updatedAt -__v',
+        );
+
+        if (applicant) {
+            res.status(200).json(applicant);
+        } else {
+            res.status(404).json({ message: 'Applicant not found' });
+        }
+    },
+);
+
 // Create a new applicant
 export const createApplicant = asyncHandler(
     async (req: Request, res: Response) => {
@@ -114,32 +130,18 @@ export const deleteApplicant = asyncHandler(
     },
 );
 
-// Hire an applicant
-export const hireApplicant = asyncHandler(
+// ChengeStatus an applicant
+export const changeStatusApplicant = asyncHandler(
     async (req: Request, res: Response) => {
         const { id } = req.params;
         const applicant = await Applicant.findByIdAndUpdate(id, {
-            isHired: true,
+            isOpen: req.body.isHired,
         });
 
         if (applicant) {
-            res.status(202).json({ message: 'Applicant hired' });
-        } else {
-            res.status(404).json({ message: 'Applicant not found' });
-        }
-    },
-);
-
-// Get applicant by ID
-export const getApplicantById = asyncHandler(
-    async (req: Request, res: Response) => {
-        const { id } = req.params;
-        const applicant = await Applicant.findById(id).select(
-            '-createdAt -updatedAt -__v',
-        );
-
-        if (applicant) {
-            res.status(200).json(applicant);
+            res.status(202).json({
+                message: 'Applicant isHired status changed',
+            });
         } else {
             res.status(404).json({ message: 'Applicant not found' });
         }

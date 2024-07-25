@@ -1,4 +1,3 @@
-// backend/controllers/vacancyController.ts
 import { Request, Response } from 'express';
 import Vacancy from '../models/Vacancy';
 import Employer from '../models/Employer';
@@ -13,6 +12,21 @@ export const getVacancies = asyncHandler(
             })
             .select('-createdAt -updatedAt -__v');
         res.status(200).json(vacancies);
+    },
+);
+
+export const getVacancyById = asyncHandler(
+    async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const vacancy = await Vacancy.findById(id).select(
+            '-createdAt -updatedAt -__v',
+        );
+
+        if (vacancy) {
+            res.status(200).json(vacancy);
+        } else {
+            res.status(404).json({ message: 'Vacancy not found' });
+        }
     },
 );
 
@@ -81,13 +95,15 @@ export const deleteVacancy = asyncHandler(
     },
 );
 
-export const closeVacancy = asyncHandler(
+export const changeStatusVacancy = asyncHandler(
     async (req: Request, res: Response) => {
         const { id } = req.params;
-        const vacancy = await Vacancy.findByIdAndUpdate(id, { isOpen: false });
+        const vacancy = await Vacancy.findByIdAndUpdate(id, {
+            isOpen: req.body.isOpen,
+        });
 
         if (vacancy) {
-            res.status(202).json({ message: 'Vacancy closed' });
+            res.status(202).json({ message: 'Vacancy isOpen status changed' });
         } else {
             res.status(404).json({ message: 'Vacancy not found' });
         }

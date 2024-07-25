@@ -2,9 +2,10 @@ import express from 'express';
 import {
     createVacancy,
     getVacancies,
+    getVacancyById,
     updateVacancy,
     deleteVacancy,
-    closeVacancy,
+    changeStatusVacancy,
 } from '../controllers/vacancyController';
 import { auth } from '../middlewares/authMiddleware';
 
@@ -51,6 +52,46 @@ const router = express.Router();
  *         description: Not authorized.
  */
 router.get('/all', auth, getVacancies);
+
+/**
+ * @swagger
+ * /api/vacancies/{id}:
+ *   get:
+ *     summary: Get a vacancy by ID
+ *     tags: [Vacancies]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Vacancy ID (e.g. 66981d223c9f4c4b52f8b87b)
+ *     responses:
+ *       200:
+ *         description: Vacancy retrieved successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                   _id:
+ *                     type: string
+ *                   employer:
+ *                     type: string
+ *                   jobPosition:
+ *                     type: string
+ *                   professionalArea:
+ *                     type: string
+ *                   salary:
+ *                     type: number
+ *                   isOpen:
+ *                     type: boolean
+ *       404:
+ *         description: Vacancy not found.
+ */
+router.get('/:id', auth, getVacancyById);
 
 /**
  * @swagger
@@ -153,9 +194,9 @@ router.delete('/delete/:id', auth, deleteVacancy);
 
 /**
  * @swagger
- * /api/vacancies/close/{id}:
+ * /api/vacancies/change-status/{id}:
  *   put:
- *     summary: Close a vacancy
+ *     summary: Change status a vacancy
  *     tags: [Vacancies]
  *     security:
  *       - bearerAuth: []
@@ -166,12 +207,21 @@ router.delete('/delete/:id', auth, deleteVacancy);
  *           type: string
  *         required: true
  *         description: Vacancy ID (e.g. 66981d223c9f4c4b52f8b87b)
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               isOpen:
+ *                 type: boolean
  *     responses:
- *       202:
- *         description: Vacancy closed successfully.
+ *       201:
+ *         description: Vacancy isOpen status changed successfully.
  *       404:
  *         description: Vacancy not found.
  */
-router.put('/close/:id', auth, closeVacancy);
+router.put('/change-status/:id', auth, changeStatusVacancy);
 
 export default router;

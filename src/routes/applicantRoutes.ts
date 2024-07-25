@@ -4,7 +4,7 @@ import {
     getApplicants,
     updateApplicant,
     deleteApplicant,
-    hireApplicant,
+    changeStatusApplicant,
     getApplicantById,
 } from '../controllers/applicantController';
 import { auth } from '../middlewares/authMiddleware';
@@ -56,6 +56,50 @@ const router = express.Router();
  *         description: Not authorized.
  */
 router.get('/all', auth, getApplicants);
+
+/**
+ * @swagger
+ * /api/applicants/{id}:
+ *   get:
+ *     summary: Get an applicant by ID
+ *     tags: [Applicants]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Applicant ID (e.g. 66981d223c9f4c4b52f8b87b)
+ *     responses:
+ *       200:
+ *         description: Applicant found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 surname:
+ *                   type: string
+ *                 patronymic:
+ *                   type: string
+ *                 qualification:
+ *                   type: string
+ *                 professionalArea:
+ *                   type: string
+ *                 salary:
+ *                   type: number
+ *                 isHired:
+ *                   type: boolean
+ *       404:
+ *         description: Applicant not found.
+ */
+router.get('/:id', auth, getApplicantById);
 
 /**
  * @swagger
@@ -166,9 +210,9 @@ router.delete('/delete/:id', auth, deleteApplicant);
 
 /**
  * @swagger
- * /api/applicants/hire/{id}:
+ * /api/applicants/change-status/{id}:
  *   put:
- *     summary: Hire an applicant
+ *     summary: Change isHire status an applicant
  *     tags: [Applicants]
  *     security:
  *       - bearerAuth: []
@@ -179,56 +223,21 @@ router.delete('/delete/:id', auth, deleteApplicant);
  *           type: string
  *         required: true
  *         description: Applicant ID (e.g. 66981d223c9f4c4b52f8b87b)
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               isOpen:
+ *                 type: boolean
  *     responses:
- *       202:
- *         description: Applicant hired successfully.
+ *       201:
+ *         description: Applicant isHired status changed successfully.
  *       404:
  *         description: Applicant not found.
  */
-router.put('/hire/:id', auth, hireApplicant);
-
-/**
- * @swagger
- * /api/applicants/{id}:
- *   get:
- *     summary: Get an applicant by ID
- *     tags: [Applicants]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: Applicant ID (e.g. 66981d223c9f4c4b52f8b87b)
- *     responses:
- *       200:
- *         description: Applicant found.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 _id:
- *                   type: string
- *                 name:
- *                   type: string
- *                 surname:
- *                   type: string
- *                 patronymic:
- *                   type: string
- *                 qualification:
- *                   type: string
- *                 professionalArea:
- *                   type: string
- *                 salary:
- *                   type: number
- *                 isHired:
- *                   type: boolean
- *       404:
- *         description: Applicant not found.
- */
-router.get('/:id', auth, getApplicantById);
+router.put('/change-status/:id', auth, changeStatusApplicant);
 
 export default router;
