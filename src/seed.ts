@@ -25,11 +25,11 @@ import dotenv from 'dotenv';
 import Employer from './models/Employer';
 import Applicant from './models/Applicant';
 import Vacancy from './models/Vacancy';
-import Agreement from './models/Agreement';
+// import Agreement from './models/Agreement';
 import { IEmployer } from './models/Employer';
 import { IApplicant } from './models/Applicant';
 import { IVacancy } from './models/Vacancy';
-import { IAgreement } from './models/Agreement';
+// import { IAgreement } from './models/Agreement';
 import { professionalAreas } from './constants/jobsAndAreas';
 
 dotenv.config();
@@ -45,7 +45,7 @@ const generateEmployers = async () => {
     };
 
     const employers: IEmployer[] = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 100; i++) {
         const address = [
             faker.location.streetAddress(),
             faker.location.city(),
@@ -60,13 +60,13 @@ const generateEmployers = async () => {
             }),
         );
     }
-    // await Employer.insertMany(employers);
+    await Employer.insertMany(employers);
     console.log('Employers generated');
 };
 
 const generateApplicants = async () => {
     const applicants: IApplicant[] = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 800; i++) {
         const profArea = faker.helpers.objectKey(professionalAreas);
         applicants.push(
             new Applicant({
@@ -81,7 +81,7 @@ const generateApplicants = async () => {
             }),
         );
     }
-    // await Applicant.insertMany(applicants);
+    await Applicant.insertMany(applicants);
     console.log('Applicants generated');
     console.log(applicants);
 };
@@ -90,7 +90,7 @@ const generateVacancies = async () => {
     const employers = await Employer.find().exec();
     const vacancies: IVacancy[] = [];
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 400; i++) {
         const employer = faker.helpers.arrayElement(employers);
         vacancies.push(
             new Vacancy({
@@ -99,32 +99,32 @@ const generateVacancies = async () => {
                     professionalAreas[employer.professionalArea],
                 ),
                 professionalArea: employer.professionalArea,
-                salary: faker.number.int({ min: 30000, max: 150000 }),
+                salary: faker.number.int({ min: 50000, max: 200000 }),
             }),
         );
     }
-    // await Vacancy.insertMany(vacancies);
+    await Vacancy.insertMany(vacancies);
     console.log('Vacancies generated');
 };
 
-const generateAgreements = async () => {
-    const employers = await Employer.find().exec();
-    const applicants = await Applicant.find().exec();
+// const generateAgreements = async () => {
+//     const employers = await Employer.find().exec();
+//     const applicants = await Applicant.find().exec();
 
-    const agreements: IAgreement[] = [];
-    for (let i = 0; i < 20; i++) {
-        agreements.push(
-            new Agreement({
-                employer: faker.helpers.arrayElement(employers)._id,
-                applicant: faker.helpers.arrayElement(applicants)._id,
-                jobPosition: faker.person.jobTitle(),
-                fees: faker.number.int({ min: 1000, max: 10000 }),
-            }),
-        );
-    }
-    // await Agreement.insertMany(agreements);
-    console.log('Agreements generated');
-};
+//     const agreements: IAgreement[] = [];
+//     for (let i = 0; i < 20; i++) {
+//         agreements.push(
+//             new Agreement({
+//                 employer: faker.helpers.arrayElement(employers)._id,
+//                 applicant: faker.helpers.arrayElement(applicants)._id,
+//                 jobPosition: faker.person.jobTitle(),
+//                 fees: faker.number.int({ min: 1000, max: 10000 }),
+//             }),
+//         );
+//     }
+//     await Agreement.insertMany(agreements);
+//     console.log('Agreements generated');
+// };
 
 mongoose
     .connect(MONGO_URI!)
@@ -133,7 +133,7 @@ mongoose
         await generateEmployers();
         await generateApplicants();
         await generateVacancies();
-        await generateAgreements();
+        // await generateAgreements();
         mongoose.disconnect();
     })
     .catch((error) => {
