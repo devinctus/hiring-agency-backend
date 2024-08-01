@@ -1,4 +1,3 @@
-// backend/controllers/agreementController.ts
 import { Request, Response } from 'express';
 import Agreement from '../models/Agreement';
 import Employer from '../models/Employer';
@@ -6,7 +5,7 @@ import Applicant from '../models/Applicant';
 import asyncHandler from 'express-async-handler';
 
 export const getAgreements = asyncHandler(
-    async (req: Request, res: Response) => {
+    async (_req: Request, res: Response) => {
         const agreements = await Agreement.find()
             .populate({
                 path: 'employer applicant',

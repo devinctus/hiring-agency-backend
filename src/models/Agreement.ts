@@ -1,4 +1,3 @@
-// backend/models/Agreement.ts
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IAgreement extends Document {

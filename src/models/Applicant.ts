@@ -1,4 +1,3 @@
-// backend/models/Applicant.ts
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IApplicant extends Document {

@@ -1,4 +1,3 @@
-// backend/src/models/User.ts
 import mongoose, { Document, Schema, CallbackError } from 'mongoose';
 import bcrypt from 'bcryptjs';
 

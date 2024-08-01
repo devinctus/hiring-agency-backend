@@ -15,24 +15,19 @@ dotenv.config();
 
 const app = express();
 
-// Connect to the database
 connectDB();
 
-// Middleware
 app.use(express.json());
 app.use(cors(corsOptions));
 
-// Swagger setup
 setupSwagger(app);
 
-// Routes
 app.use('/api/users', userRoutes);
 app.use('/api/employers', employerRoutes);
 app.use('/api/applicants', applicantRoutes);
 app.use('/api/vacancies', vacancyRoutes);
 app.use('/api/agreements', agreementRoutes);
 
-// Error handling middleware
 app.use(notFound);
 app.use(errorHandler);
 

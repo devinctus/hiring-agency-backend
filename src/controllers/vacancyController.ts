@@ -4,7 +4,7 @@ import Employer from '../models/Employer';
 import asyncHandler from 'express-async-handler';
 
 export const getVacancies = asyncHandler(
-    async (req: Request, res: Response) => {
+    async (_req: Request, res: Response) => {
         const vacancies = await Vacancy.find()
             .populate({
                 path: 'employer',

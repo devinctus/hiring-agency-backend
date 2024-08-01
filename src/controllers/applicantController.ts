@@ -2,9 +2,8 @@ import { Request, Response } from 'express';
 import Applicant from '../models/Applicant';
 import asyncHandler from 'express-async-handler';
 
-// Get all applicants
 export const getApplicants = asyncHandler(
-    async (req: Request, res: Response) => {
+    async (_req: Request, res: Response) => {
         const applicants = await Applicant.find().select(
             '-createdAt -updatedAt -__v',
         );
@@ -12,7 +11,6 @@ export const getApplicants = asyncHandler(
     },
 );
 
-// Get applicant by ID
 export const getApplicantById = asyncHandler(
     async (req: Request, res: Response) => {
         const { id } = req.params;
@@ -28,7 +26,6 @@ export const getApplicantById = asyncHandler(
     },
 );
 
-// Create a new applicant
 export const createApplicant = asyncHandler(
     async (req: Request, res: Response) => {
         const {
@@ -67,7 +64,6 @@ export const createApplicant = asyncHandler(
     },
 );
 
-// Update an applicant
 export const updateApplicant = asyncHandler(
     async (req: Request, res: Response) => {
         const { id } = req.params;
@@ -116,7 +112,6 @@ export const updateApplicant = asyncHandler(
     },
 );
 
-// Delete an applicant
 export const deleteApplicant = asyncHandler(
     async (req: Request, res: Response) => {
         const { id } = req.params;
@@ -130,7 +125,6 @@ export const deleteApplicant = asyncHandler(
     },
 );
 
-// ChengeStatus an applicant
 export const changeStatusApplicant = asyncHandler(
     async (req: Request, res: Response) => {
         const { id } = req.params;

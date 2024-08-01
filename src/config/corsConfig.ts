@@ -1,6 +1,6 @@
 export const corsOptions = {
-    origin: 'http://localhost:4200', // Your Angular app's URL
+    origin: 'http://localhost:4200',
     methods: 'GET,PUT,PATCH,POST,DELETE',
-    credentials: true, // Allow cookies to be sent with requests
+    credentials: true,
     optionsSuccessStatus: 204,
 };

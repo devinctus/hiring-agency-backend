@@ -3,7 +3,7 @@ import Employer from '../models/Employer';
 import asyncHandler from 'express-async-handler';
 
 export const getEmployers = asyncHandler(
-    async (req: Request, res: Response) => {
+    async (_req: Request, res: Response) => {
         const employers = await Employer.find().select(
             '-createdAt -updatedAt -__v',
         );

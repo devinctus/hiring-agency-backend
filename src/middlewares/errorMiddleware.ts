@@ -1,4 +1,3 @@
-// backend/middlewares/errorMiddleware.ts
 import { Request, Response, NextFunction } from 'express';
 
 const notFound = (req: Request, res: Response, next: NextFunction) => {
@@ -9,7 +8,7 @@ const notFound = (req: Request, res: Response, next: NextFunction) => {
 
 const errorHandler = (
     err: Error,
-    req: Request,
+    _req: Request,
     res: Response,
     _next: NextFunction,
 ) => {
